@@ -23,6 +23,7 @@ import com.application.inventApp.Controller.DTO.CategoryDTOs.CategoryDTOSave;
 import com.application.inventApp.Controller.DTO.CategoryDTOs.CategoryDTOUpdate;
 import com.application.inventApp.Controller.Response.ResponseOK;
 import com.application.inventApp.Entity.Category;
+import com.application.inventApp.Exception.NotFoundException;
 import com.application.inventApp.Services.Impl.CategoryService;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
@@ -43,14 +44,14 @@ public class CategoryController {
   }
 
   @GetMapping("/find-id/{id}")
-  public ResponseEntity<?> findById(@PathVariable String id) {
+  public ResponseEntity<?> findById(@PathVariable(name = "id") String id) {
     Optional<Category> categoryOptional = categoryService.findById(UUID.fromString(id));
     if (categoryOptional.isPresent()) {
       Category category = categoryOptional.get();
       CategoryDTOFind categoryDTO = modelMapper.map(category, CategoryDTOFind.class);
       return ResponseEntity.ok(categoryDTO);
     }
-    return ResponseEntity.notFound().build();
+    throw new NotFoundException("Categoria no encontrada");
   }
 
   @PostMapping("/save")
@@ -73,7 +74,7 @@ public class CategoryController {
     if (categoryOptional.isPresent()) {
       return ResponseEntity.ok(new ResponseOK("La categoria se actualizo correctamente"));
     }
-    return ResponseEntity.notFound().build();
+    throw new NotFoundException("Categoria no encontrada");
   }
 
   @DeleteMapping("/delete/{id}")
@@ -83,6 +84,6 @@ public class CategoryController {
     if (categoryOptional.isPresent()) {
       return ResponseEntity.ok(new ResponseOK("La categoria fue eliminada correctamente"));
     }
-    return ResponseEntity.notFound().build();
+    throw new NotFoundException("Categoria no encontrada");
   }
 }

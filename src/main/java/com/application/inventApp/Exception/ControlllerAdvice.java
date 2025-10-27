@@ -13,6 +13,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @ControllerAdvice
 public class ControlllerAdvice {
+
   @ExceptionHandler(DataIntegrityViolationException.class)
   public ResponseEntity<ExceptionDetails> dataIntegrityViolationException(DataIntegrityViolationException e) {
     if (e.getMostSpecificCause().getMessage().contains("Ya existe la llave")
@@ -22,7 +23,6 @@ public class ControlllerAdvice {
           HttpStatus.BAD_REQUEST);
 
     }
-    System.out.println(e.getMostSpecificCause().getMessage() + "kdjfkjklsdjklf88888");
     return new ResponseEntity<>(
         new ExceptionDetails("Violación de integridad de datos: " + e.getMostSpecificCause().getMessage(),
             Severity.ERROR),
@@ -45,6 +45,12 @@ public class ControlllerAdvice {
   public ResponseEntity<ExceptionDetails> tokenInvalid(JWTVerificationException e) {
     return new ResponseEntity<>(new ExceptionDetails("Token invalido o expirado", Severity.ERROR),
         HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<ExceptionDetails> notFoundException(NotFoundException e) {
+    return new ResponseEntity<>(new ExceptionDetails(e.getMessage(), Severity.ERROR),
+        HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(Exception.class)
