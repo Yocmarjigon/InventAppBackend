@@ -1,8 +1,8 @@
 package com.application.inventApp.Controller;
 
-import com.application.inventApp.Controller.DTO.SupplierDTOFind;
-import com.application.inventApp.Controller.DTO.SupplierDTOSave;
-import com.application.inventApp.Controller.DTO.SupplierDTOUpdate;
+import com.application.inventApp.Controller.DTO.SupplierDTOs.SupplierDTOFind;
+import com.application.inventApp.Controller.DTO.SupplierDTOs.SupplierDTOSave;
+import com.application.inventApp.Controller.DTO.SupplierDTOs.SupplierDTOUpdate;
 import com.application.inventApp.Controller.Response.ResponseOK;
 import com.application.inventApp.Entity.Supplier;
 import com.application.inventApp.Services.Impl.SupplierService;
@@ -27,7 +27,8 @@ public class SupplierController {
 
   @GetMapping("/find-all")
   public ResponseEntity<?> findAll() {
-    List<SupplierDTOFind> suppliers = supplierService.findAll().stream().map(supplier -> modelMapper.map(supplier, SupplierDTOFind.class)).toList();
+    List<SupplierDTOFind> suppliers = supplierService.findAll().stream()
+        .map(supplier -> modelMapper.map(supplier, SupplierDTOFind.class)).toList();
     return ResponseEntity.ok(suppliers);
   }
 
@@ -45,8 +46,9 @@ public class SupplierController {
 
   @PostMapping("/save")
   public ResponseEntity<?> save(@Valid @RequestBody SupplierDTOSave supplierDTO, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()){
-      return new ResponseEntity<>(new ResponseOK(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+    if (bindingResult.hasErrors()) {
+      return new ResponseEntity<>(new ResponseOK(bindingResult.getFieldError().getDefaultMessage()),
+          HttpStatus.BAD_REQUEST);
     }
 
     Supplier supplier = modelMapper.map(supplierDTO, Supplier.class);
@@ -77,6 +79,5 @@ public class SupplierController {
     }
     return ResponseEntity.notFound().build();
   }
-
 
 }

@@ -1,8 +1,8 @@
 package com.application.inventApp.Controller;
 
-import com.application.inventApp.Controller.DTO.SaleDTOFind;
-import com.application.inventApp.Controller.DTO.SaleDTOSave;
-import com.application.inventApp.Controller.DTO.SaleDTOUpdate;
+import com.application.inventApp.Controller.DTO.SaleDTOs.SaleDTOFind;
+import com.application.inventApp.Controller.DTO.SaleDTOs.SaleDTOSave;
+import com.application.inventApp.Controller.DTO.SaleDTOs.SaleDTOUpdate;
 import com.application.inventApp.Controller.Response.ResponseOK;
 import com.application.inventApp.Entity.Sale;
 import com.application.inventApp.Services.Impl.SaleService;
@@ -31,7 +31,8 @@ public class SaleController {
   @GetMapping("/find-all")
   public ResponseEntity<?> findAll() {
 
-    List<SaleDTOFind> saleDTOS = saleService.findAll().stream().map(sale -> modelMapper.map(sale, SaleDTOFind.class)).toList();
+    List<SaleDTOFind> saleDTOS = saleService.findAll().stream().map(sale -> modelMapper.map(sale, SaleDTOFind.class))
+        .toList();
 
     return ResponseEntity.ok(saleDTOS);
   }
@@ -43,7 +44,7 @@ public class SaleController {
 
       Sale sale = saleOptional.get();
 
-      SaleDTOFind saleDTO =modelMapper.map(sale, SaleDTOFind.class) ;
+      SaleDTOFind saleDTO = modelMapper.map(sale, SaleDTOFind.class);
       return ResponseEntity.ok(saleDTO);
     }
     return ResponseEntity.notFound().build();
@@ -51,16 +52,17 @@ public class SaleController {
   }
 
   @PostMapping("/save")
-  public ResponseEntity<?> save(@Valid @RequestBody SaleDTOSave saleDTO, BindingResult bindingResult) throws JWTVerificationException {
+  public ResponseEntity<?> save(@Valid @RequestBody SaleDTOSave saleDTO, BindingResult bindingResult)
+      throws JWTVerificationException {
 
-    if (bindingResult.hasErrors()){
-      return new ResponseEntity<>(new ResponseOK(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+    if (bindingResult.hasErrors()) {
+      return new ResponseEntity<>(new ResponseOK(bindingResult.getFieldError().getDefaultMessage()),
+          HttpStatus.BAD_REQUEST);
     }
 
-
-      Sale sale = modelMapper.map(saleDTO, Sale.class);
-      saleService.save(sale, saleDTO.getProducts());
-      return ResponseEntity.ok(new ResponseOK("Venta creada correctamente"));
+    Sale sale = modelMapper.map(saleDTO, Sale.class);
+    saleService.save(sale, saleDTO.getProducts());
+    return ResponseEntity.ok(new ResponseOK("Venta creada correctamente"));
 
   }
 

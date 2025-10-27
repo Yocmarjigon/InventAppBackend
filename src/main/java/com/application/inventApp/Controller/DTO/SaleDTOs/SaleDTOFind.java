@@ -1,4 +1,4 @@
-package com.application.inventApp.Controller.DTO;
+package com.application.inventApp.Controller.DTO.SaleDTOs;
 
 import com.application.inventApp.Entity.Product;
 import com.application.inventApp.Entity.User;

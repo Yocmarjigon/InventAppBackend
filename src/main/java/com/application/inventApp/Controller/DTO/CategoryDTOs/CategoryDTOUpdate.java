@@ -1,4 +1,4 @@
-package com.application.inventApp.Controller.DTO;
+package com.application.inventApp.Controller.DTO.CategoryDTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

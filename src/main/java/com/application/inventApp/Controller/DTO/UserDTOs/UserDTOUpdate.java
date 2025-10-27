@@ -1,4 +1,4 @@
-package com.application.inventApp.Controller.DTO;
+package com.application.inventApp.Controller.DTO.UserDTOs;
 
 import com.application.inventApp.Controller.DTO.ValidationCustom.PasswordValid;
 import com.application.inventApp.Controller.DTO.ValidationCustom.RolValid;
@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
 
 @AllArgsConstructor
 @NoArgsConstructor

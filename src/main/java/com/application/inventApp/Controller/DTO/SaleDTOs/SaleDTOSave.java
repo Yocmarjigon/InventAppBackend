@@ -1,4 +1,4 @@
-package com.application.inventApp.Controller.DTO;
+package com.application.inventApp.Controller.DTO.SaleDTOs;
 
 import com.application.inventApp.Controller.DTO.ValidationCustom.ListObjectValid;
 import com.application.inventApp.Entity.Product;
@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 
 @AllArgsConstructor
 @NoArgsConstructor

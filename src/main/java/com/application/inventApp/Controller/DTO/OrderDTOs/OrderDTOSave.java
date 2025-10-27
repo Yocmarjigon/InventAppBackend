@@ -1,15 +1,16 @@
-package com.application.inventApp.Controller.DTO;
+package com.application.inventApp.Controller.DTO.OrderDTOs;
+
+import java.util.Date;
 
 import com.application.inventApp.Controller.DTO.ValidationCustom.DateValid;
 import com.application.inventApp.Controller.DTO.ValidationCustom.ObjectValid;
 import com.application.inventApp.Entity.Supplier;
+
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
