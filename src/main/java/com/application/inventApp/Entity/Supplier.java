@@ -9,8 +9,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,9 +38,5 @@ public class Supplier extends BaseEntity {
   @OneToMany(mappedBy = "supplier", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
   @JsonIgnore
   private List<Order> orders = new ArrayList<>();
-
-  @ManyToOne
-  @JoinColumn(name = "id_usuario")
-  private User user;
 
 }
