@@ -1,22 +1,31 @@
 package com.application.inventApp.Controller;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.application.inventApp.Controller.DTO.SupplierDTOs.SupplierDTOFind;
 import com.application.inventApp.Controller.DTO.SupplierDTOs.SupplierDTOSave;
 import com.application.inventApp.Controller.DTO.SupplierDTOs.SupplierDTOUpdate;
 import com.application.inventApp.Controller.Response.ResponseOK;
 import com.application.inventApp.Entity.Supplier;
 import com.application.inventApp.Services.Impl.SupplierService;
-import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/supplier")
@@ -57,8 +66,14 @@ public class SupplierController {
   }
 
   @PutMapping("/update/{id}")
-  public ResponseEntity<?> update(@PathVariable String id, @RequestBody SupplierDTOUpdate supplierDTO) {
+  public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody SupplierDTOUpdate supplierDTO,
+      BindingResult bindingResult) {
     Supplier supplier = modelMapper.map(supplierDTO, Supplier.class);
+
+    if (bindingResult.hasErrors()) {
+      return new ResponseEntity<>(new ResponseOK(bindingResult.getFieldError().getDefaultMessage()),
+          HttpStatus.BAD_REQUEST);
+    }
 
     Optional<Supplier> supplierOptional = supplierService.update(UUID.fromString(id), supplier);
 

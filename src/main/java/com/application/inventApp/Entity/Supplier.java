@@ -26,11 +26,11 @@ public class Supplier extends BaseEntity {
   @Column(name = "nombre", nullable = false, length = 100)
   private String name;
   @Column(name = "contacto", nullable = false, length = 100)
-  private String contact;
+  private String numberPhone;
   @Column(name = "correo", nullable = false, length = 100)
   private String email;
   @Column(name = "direccion", nullable = false, length = 150)
-  private String addres;
+  private String address;
 
   @OneToMany(mappedBy = "supplier", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, orphanRemoval = true)
   private List<Product> products = new ArrayList<>();
