@@ -1,20 +1,20 @@
 package com.application.inventApp.Services.Impl;
 
 import com.application.inventApp.Entity.Category;
+import com.application.inventApp.Exception.NotFoundException;
 import com.application.inventApp.Repository.CategoryRepository;
 import com.application.inventApp.Services.ICategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryService implements ICategoryService {
+
   @Autowired
   private CategoryRepository categoryRepository;
-
 
   @Override
   public List<Category> findAll() {
@@ -22,8 +22,11 @@ public class CategoryService implements ICategoryService {
   }
 
   @Override
-  public Optional<Category> findById(UUID id) {
-    return categoryRepository.findById(id);
+  public Category findById(UUID id) {
+    Optional<Category> optionalCategory = this.categoryRepository.findById(id);
+    return optionalCategory.orElseThrow(() ->
+      new NotFoundException("La categoria no existe")
+    );
   }
 
   @Override
@@ -32,24 +35,26 @@ public class CategoryService implements ICategoryService {
   }
 
   @Override
-  public Optional<Category> update(UUID id, Category category) {
+  public void update(UUID id, Category category) {
     Optional<Category> optionalCategory = categoryRepository.findById(id);
-    if(optionalCategory.isPresent()){
+    if (optionalCategory.isPresent()) {
       Category categoryUp = optionalCategory.get();
       categoryUp.setName(category.getName());
       categoryRepository.save(categoryUp);
     }
-
-    return optionalCategory;
+    optionalCategory.orElseThrow(() ->
+      new NotFoundException("La categoria no existe")
+    );
   }
 
   @Override
-  public Optional<Category> delete(UUID id) {
+  public void delete(UUID id) {
     Optional<Category> categoryOptional = categoryRepository.findById(id);
-    if (categoryOptional.isPresent()){
+    if (categoryOptional.isPresent()) {
       categoryRepository.delete(categoryOptional.get());
     }
-
-    return categoryOptional;
+    categoryOptional.orElseThrow(() ->
+      new NotFoundException("La categoria no existe")
+    );
   }
 }
